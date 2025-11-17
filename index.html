@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omar Ameer - Flutter Developer</title>
+    <title>Omar Ameer - Mobile Application Developer</title>
     <link rel="shortcut icon" href="assets/image.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Load configuration file (keep config.js in .gitignore) -->
@@ -1504,7 +1504,7 @@
         <div class="hero-content">
             <div class="profile-image-container">
                 <div class="profile-ring"></div>
-                <img src="assets/profile-picture.jpg" alt="Omar Ameer" class="profile-image"
+                <img src="assets/profile-picture-2.jpg" alt="Omar Ameer" class="profile-image"
                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="profile-image-placeholder" style="display: none;">
                     <i class="fas fa-user"></i>
@@ -1513,8 +1513,7 @@
             <p class="hero-subtitle">👋 Hello, I'm</p>
             <h1 class="hero-title">Omar <span class="gradient-text">Ameer</span></h1>
             <p class="hero-description">
-                <span class="typing-text">Flutter Developer | 8+ Production Apps | 12K+ Downloads | Clean Architecture
-                    Expert</span>
+                <span class="typing-text">Mobile Application Developer | 8+ Production Apps | 12K+ Downloads</span>
             </p>
             <div class="hero-buttons">
                 <a href="#contact" class="btn btn-primary">Get In Touch</a>
@@ -1531,9 +1530,9 @@
         <h2 class="section-title">About Me</h2>
         <div class="about-content">
             <div class="about-text">
-                <h3>Results-Driven Flutter Developer</h3>
+                <h3>Results-Driven Mobile Application Developer</h3>
                 <p>
-                    I'm a passionate Flutter Developer with proven expertise in delivering 8+ production-level mobile
+                    I'm a passionate Mobile Application Developer with proven expertise in delivering 8+ production-level mobile
                     applications on both Android and iOS platforms. With a strong foundation in Flutter, Dart, Bloc,
                     GetX, and Clean Architecture, I specialize in building scalable, high-performance applications
                     that solve real-world problems.
@@ -1669,6 +1668,25 @@
                         <li>Vooo Shop - Shop management system</li>
                         <li>Vooo Menu - Digital menu solution</li>
                         <li>HRKLIX - HR management application</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <h3 class="experience-title">Flutter Developer</h3>
+                        <p class="experience-company">Dhow Ventures | Oman</p>
+                    </div>
+                    <span class="experience-date">Aug 2025 - Present</span>
+                </div>
+                <div class="experience-description">
+                    <p>Worked on Riverpod 4-based applications with a focus on performance, reliability, and cross-platform delivery.</p>
+                    <ul>
+                        <li>Developed and maintained multiple apps using Riverpod 4 and Clean Architecture for scalable codebases</li>
+                        <li>Collaborated with release and QA teams to publish apps on both the Google Play Store and Apple App Store</li>
+                        <li>Integrated third-party APIs, in-app purchases, and push notifications while ensuring secure handling of credentials</li>
+                        <li>Worked closely with designers and product managers to deliver polished releases meeting store guidelines</li>
                     </ul>
                 </div>
             </div>
@@ -2391,36 +2409,41 @@
         document.querySelector('.download-cv').style.transition = 'opacity 0.3s';
 
         // Counter Animation for Stats
-        function animateCounter(element, target) {
+        function animateCounter(element, target, isFloat, suffix) {
             let current = 0;
-            const increment = target / 100;
+            const steps = 100;
+            const increment = target / steps;
             const timer = setInterval(() => {
                 current += increment;
                 if (current >= target) {
-                    element.textContent = target;
+                    element.textContent = (isFloat ? target.toFixed(1) : Math.floor(target)) + (suffix || '');
                     clearInterval(timer);
                 } else {
-                    element.textContent = Math.floor(current);
+                    const display = isFloat ? Math.min(target, current).toFixed(1) : Math.floor(current);
+                    element.textContent = display + (suffix || '');
                 }
             }, 20);
         }
-
+        
         // Observe stat numbers for animation
         const statObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const statNumber = entry.target;
-                    const text = statNumber.textContent;
-                    const match = text.match(/\d+/);
+                    const originalText = statNumber.textContent.trim();
+                    const match = originalText.match(/[\d,.]+/);
                     if (match) {
-                        const target = parseInt(match[0]);
-                        animateCounter(statNumber, target);
+                        const numericStr = match[0].replace(/,/g, '');
+                        const target = parseFloat(numericStr);
+                        const suffix = originalText.slice(originalText.indexOf(match[0]) + match[0].length);
+                        const isFloat = numericStr.indexOf('.') !== -1;
+                        animateCounter(statNumber, target, isFloat, suffix);
                         statObserver.unobserve(statNumber);
                     }
                 }
             });
         }, { threshold: 0.5 });
-
+        
         document.querySelectorAll('.stat-number').forEach(stat => {
             statObserver.observe(stat);
         });
